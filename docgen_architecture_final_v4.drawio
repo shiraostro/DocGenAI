@@ -1,0 +1,187 @@
+<mxfile host="app.diagrams.net" modified="2026-01-13T00:00:00Z" agent="GPT" version="24.7.8" type="device">
+  <diagram id="9a40d42bc573" name="DocGen MVP - Step Functions (Final v4)">
+    <mxGraphModel dx="1420" dy="780" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="900" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="aws_cloud" value="AWS Cloud (Single Region)" style="points=[[0,0],[0.25,0],[0.5,0],[0.75,0],[1,0],[1,0.25],[1,0.5],[1,0.75],[1,1],[0.75,1],[0.5,1],[0.25,1],[0,1],[0,0.75],[0,0.5],[0,0.25]];outlineConnect=0;gradientColor=none;html=1;whiteSpace=wrap;fontSize=14;fontStyle=1;shape=mxgraph.aws4.group;grIcon=mxgraph.aws4.group_aws_cloud_alt;strokeColor=#232F3E;fillColor=none;verticalAlign=top;align=left;spacingLeft=34;fontColor=#232F3E;dashed=0;" parent="1" vertex="1">
+          <mxGeometry x="20" y="20" width="1360" height="760" as="geometry" />
+        </mxCell>
+        <mxCell id="vpc" value="VPC (Private)" style="points=[[0,0],[0.25,0],[0.5,0],[0.75,0],[1,0],[1,0.25],[1,0.5],[1,0.75],[1,1],[0.75,1],[0.5,1],[0.25,1],[0,1],[0,0.75],[0,0.5],[0,0.25]];outlineConnect=0;gradientColor=none;html=1;whiteSpace=wrap;fontSize=13;fontStyle=1;shape=mxgraph.aws4.group;grIcon=mxgraph.aws4.group_vpc;strokeColor=#879196;fillColor=none;verticalAlign=top;align=left;spacingLeft=34;fontColor=#232F3E;dashed=0;" parent="aws_cloud" vertex="1">
+          <mxGeometry x="40" y="60" width="1280" height="680" as="geometry" />
+        </mxCell>
+        <mxCell id="onprem_trigger" value="ON-PREM Client System&#10;(Trigger)" style="rounded=1;whiteSpace=wrap;html=1;strokeWidth=2;fillColor=#FFFFFF;strokeColor=#232F3E;fontSize=12;fontStyle=1;align=center;verticalAlign=middle;" parent="1" vertex="1">
+          <mxGeometry x="-220" y="210" width="200" height="85" as="geometry" />
+        </mxCell>
+        <mxCell id="onprem_api" value="On-Prem Data API&#10;(SQL Server-backed)" style="rounded=1;whiteSpace=wrap;html=1;strokeWidth=2;fillColor=#FFFFFF;strokeColor=#232F3E;fontSize=12;fontStyle=1;align=center;verticalAlign=middle;" parent="1" vertex="1">
+          <mxGeometry x="-220" y="320" width="200" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="onprem_db" value="Microsoft SQL Server&#10;(Database)" style="rounded=1;whiteSpace=wrap;html=1;strokeWidth=2;fillColor=#FFFFFF;strokeColor=#232F3E;fontSize=12;fontStyle=1;align=center;verticalAlign=middle;" parent="1" vertex="1">
+          <mxGeometry x="-220" y="440" width="200" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="onprem_cb" value="On-Prem Callback&#10;Endpoint" style="rounded=1;whiteSpace=wrap;html=1;strokeWidth=2;fillColor=#FFFFFF;strokeColor=#232F3E;fontSize=12;fontStyle=1;align=center;verticalAlign=middle;" parent="1" vertex="1">
+          <mxGeometry x="-220" y="560" width="200" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="e_onprem_api_db" value="TDS/ODBC" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;" parent="1" edge="1" source="onprem_api" target="onprem_db">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="api_gw" value="Private API Gateway&#10;(POST /documents)" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;fillColor=#0066CC;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=10;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.api_gateway;" parent="vpc" vertex="1">
+          <mxGeometry x="90" y="110" width="95" height="95" as="geometry" />
+        </mxCell>
+        <mxCell id="sf" value="Step Functions&#10;(State Machine)" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;fillColor=#ED7100;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=10;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.step_functions;" parent="vpc" vertex="1">
+          <mxGeometry x="220" y="110" width="95" height="95" as="geometry" />
+        </mxCell>
+        <mxCell id="e_trigger_apigw" value="Private connectivity&#10;(DX/VPN)" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;" parent="1" edge="1" source="onprem_trigger" target="api_gw">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_apigw_sf" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;" parent="1" edge="1" source="api_gw" target="sf">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="sm_group" value="State Machine (Sequential, 8 steps)&#10;Steps 3-6 are Map states (parallel items)" style="rounded=1;whiteSpace=wrap;html=1;strokeWidth=2;fillColor=#F8F9FA;strokeColor=#B0B7C3;fontSize=12;fontStyle=1;align=left;spacingLeft=10;verticalAlign=top;" parent="vpc" vertex="1">
+          <mxGeometry x="340" y="60" width="560" height="610" as="geometry" />
+        </mxCell>
+        <mxCell id="shared_group" value="Shared Services" style="rounded=1;whiteSpace=wrap;html=1;strokeWidth=2;fillColor=#F8F9FA;strokeColor=#B0B7C3;fontSize=12;fontStyle=1;align=left;spacingLeft=10;verticalAlign=top;" parent="vpc" vertex="1">
+          <mxGeometry x="930" y="80" width="360" height="310" as="geometry" />
+        </mxCell>
+        <mxCell id="docupipe" value="DocuPipe API&#10;(External HTTPS)" style="rounded=1;whiteSpace=wrap;html=1;strokeWidth=2;fillColor=#FFFFFF;strokeColor=#232F3E;fontSize=12;fontStyle=1;align=center;verticalAlign=middle;" parent="1" vertex="1">
+          <mxGeometry x="1410" y="150" width="170" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="ddb" value="DynamoDB&#10;Templates + Job Status" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;fillColor=#C925D1;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=10;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.dynamodb;" parent="shared_group" vertex="1">
+          <mxGeometry x="20" y="60" width="95" height="95" as="geometry" />
+        </mxCell>
+        <mxCell id="s3" value="S3&#10;Artifacts&#10;(metadata/files/extracted/&#10;summary/redacted/paragraphs/final)" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;fillColor=#7AA116;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=10;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.s3;" parent="shared_group" vertex="1">
+          <mxGeometry x="130" y="60" width="95" height="95" as="geometry" />
+        </mxCell>
+        <mxCell id="bedrock" value="Amazon Bedrock&#10;Claude 3 Sonnet" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;fillColor=#8C4FFF;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=10;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.bedrock;" parent="shared_group" vertex="1">
+          <mxGeometry x="240" y="60" width="95" height="95" as="geometry" />
+        </mxCell>
+        <mxCell id="secrets" value="Secrets&#10;Manager" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;fillColor=#DD344C;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=10;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.secrets_manager;" parent="shared_group" vertex="1">
+          <mxGeometry x="20" y="180" width="85" height="85" as="geometry" />
+        </mxCell>
+        <mxCell id="cw" value="CloudWatch&#10;Logs/Metrics" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;fillColor=#E7157B;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=10;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.cloudwatch_2;" parent="shared_group" vertex="1">
+          <mxGeometry x="120" y="180" width="85" height="85" as="geometry" />
+        </mxCell>
+        <mxCell id="dlq" value="SQS DLQ&#10;Callback failures" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;fillColor=#ED7100;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=10;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.sqs;" parent="shared_group" vertex="1">
+          <mxGeometry x="220" y="180" width="95" height="95" as="geometry" />
+        </mxCell>
+        <mxCell id="step1" value="1. GetBuildInstructions (Task)&#10;Lambda: docgen-doc-builder.get_template()&#10;Reads DynamoDB template + API endpoints per doc_type" style="rounded=1;whiteSpace=wrap;html=1;strokeWidth=1;fillColor=#FFFFFF;strokeColor=#B0B7C3;fontSize=11;align=left;verticalAlign=top;spacingLeft=80;spacingTop=6;" parent="sm_group" vertex="1">
+          <mxGeometry x="20" y="60" width="520" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="step1_lambda" value="docgen-doc-builder" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;fillColor=#ED7100;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=10;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.lambda;" parent="step1" vertex="1">
+          <mxGeometry x="10" y="10" width="55" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="step2" value="2. FetchMetadata (Task)&#10;Lambda: docgen-data-fetcher.fetch_metadata()&#10;On-Prem API → S3 metadata/" style="rounded=1;whiteSpace=wrap;html=1;strokeWidth=1;fillColor=#FFFFFF;strokeColor=#B0B7C3;fontSize=11;align=left;verticalAlign=top;spacingLeft=80;spacingTop=6;" parent="sm_group" vertex="1">
+          <mxGeometry x="20" y="130" width="520" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="step2_lambda" value="docgen-data-fetcher" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;fillColor=#ED7100;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=10;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.lambda;" parent="step2" vertex="1">
+          <mxGeometry x="10" y="10" width="55" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="step3" value="3. FetchAllFiles (Map, maxConc=5)&#10;Lambda: docgen-data-fetcher.fetch_file()&#10;On-Prem API → S3 files/" style="rounded=1;whiteSpace=wrap;html=1;strokeWidth=1;fillColor=#FFFFFF;strokeColor=#B0B7C3;fontSize=11;align=left;verticalAlign=top;spacingLeft=80;spacingTop=6;" parent="sm_group" vertex="1">
+          <mxGeometry x="20" y="200" width="520" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="step3_lambda" value="docgen-data-fetcher" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;fillColor=#ED7100;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=10;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.lambda;" parent="step3" vertex="1">
+          <mxGeometry x="10" y="10" width="55" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="step4" value="4. ExtractAllOCR (Map, maxConc=5)&#10;Lambda: docgen-ocr-processor.extract_ocr()&#10;DocuPipe → S3 extracted/" style="rounded=1;whiteSpace=wrap;html=1;strokeWidth=1;fillColor=#FFFFFF;strokeColor=#B0B7C3;fontSize=11;align=left;verticalAlign=top;spacingLeft=80;spacingTop=6;" parent="sm_group" vertex="1">
+          <mxGeometry x="20" y="270" width="520" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="step4_lambda" value="docgen-ocr-processor" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;fillColor=#ED7100;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=10;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.lambda;" parent="step4" vertex="1">
+          <mxGeometry x="10" y="10" width="55" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="step5" value="5. SummarizeContent (Map, maxConc=10)&#10;Lambda: docgen-ai-processor.summarize()&#10;Bedrock (Claude 3 Sonnet) → S3 summary/" style="rounded=1;whiteSpace=wrap;html=1;strokeWidth=1;fillColor=#FFFFFF;strokeColor=#B0B7C3;fontSize=11;align=left;verticalAlign=top;spacingLeft=80;spacingTop=6;" parent="sm_group" vertex="1">
+          <mxGeometry x="20" y="340" width="520" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="step5_lambda" value="docgen-ai-processor" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;fillColor=#ED7100;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=10;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.lambda;" parent="step5" vertex="1">
+          <mxGeometry x="10" y="10" width="55" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="step6" value="6. RedactPII (Map, maxConc=15)&#10;Lambda: docgen-ai-processor.redact_pii()&#10;Bedrock Guardrails/Claude → S3 redacted/" style="rounded=1;whiteSpace=wrap;html=1;strokeWidth=1;fillColor=#FFFFFF;strokeColor=#B0B7C3;fontSize=11;align=left;verticalAlign=top;spacingLeft=80;spacingTop=6;" parent="sm_group" vertex="1">
+          <mxGeometry x="20" y="410" width="520" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="step6_lambda" value="docgen-ai-processor" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;fillColor=#ED7100;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=10;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.lambda;" parent="step6" vertex="1">
+          <mxGeometry x="10" y="10" width="55" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="step7" value="7. GenerateParagraphs (Sequential)&#10;Lambda: docgen-ai-processor.gen_paragraph()&#10;Per section → S3 paragraphs/" style="rounded=1;whiteSpace=wrap;html=1;strokeWidth=1;fillColor=#FFFFFF;strokeColor=#B0B7C3;fontSize=11;align=left;verticalAlign=top;spacingLeft=80;spacingTop=6;" parent="sm_group" vertex="1">
+          <mxGeometry x="20" y="480" width="520" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="step7_lambda" value="docgen-ai-processor" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;fillColor=#ED7100;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=10;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.lambda;" parent="step7" vertex="1">
+          <mxGeometry x="10" y="10" width="55" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="step8" value="8. AssembleAndCallback (Task)&#10;Lambda: docgen-doc-builder.assemble_doc()+send_callback()&#10;S3 final/ + POST callback (fallback DLQ)" style="rounded=1;whiteSpace=wrap;html=1;strokeWidth=1;fillColor=#FFFFFF;strokeColor=#B0B7C3;fontSize=11;align=left;verticalAlign=top;spacingLeft=80;spacingTop=6;" parent="sm_group" vertex="1">
+          <mxGeometry x="20" y="550" width="520" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="step8_lambda" value="docgen-doc-builder" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;fillColor=#ED7100;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=10;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.lambda;" parent="step8" vertex="1">
+          <mxGeometry x="10" y="10" width="55" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="e_step1_step2" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;" parent="1" edge="1" source="step1" target="step2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_step2_step3" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;" parent="1" edge="1" source="step2" target="step3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_step3_step4" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;" parent="1" edge="1" source="step3" target="step4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_step4_step5" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;" parent="1" edge="1" source="step4" target="step5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_step5_step6" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;" parent="1" edge="1" source="step5" target="step6">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_step6_step7" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;" parent="1" edge="1" source="step6" target="step7">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_step7_step8" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;" parent="1" edge="1" source="step7" target="step8">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_sf_step1" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;" parent="1" edge="1" source="sf" target="step1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_step1_ddb" value="Read template" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;" parent="1" edge="1" source="step1" target="ddb">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_step2_onpremapi" value="HTTPS via DX/VPN" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;" parent="1" edge="1" source="step2" target="onprem_api">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_step3_onpremapi" value="HTTPS via DX/VPN" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;dashed=1;" parent="1" edge="1" source="step3" target="onprem_api">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_steps_s3" value="Write/read artifacts" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;" parent="1" edge="1" source="step2" target="s3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_step4_docupipe" value="HTTPS submit/poll" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;" parent="1" edge="1" source="step4" target="docupipe">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_step4_s3" value="Write extracted/" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;" parent="1" edge="1" source="step4" target="s3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_step5_bedrock" value="InvokeModel" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;" parent="1" edge="1" source="step5" target="bedrock">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_step6_bedrock" value="InvokeModel" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;" parent="1" edge="1" source="step6" target="bedrock">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_step7_bedrock" value="InvokeModel" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;" parent="1" edge="1" source="step7" target="bedrock">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_step8_callback" value="POST JSON result" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;" parent="1" edge="1" source="step8" target="onprem_cb">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_step8_dlq" value="on retries exhausted" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;dashed=1;" parent="1" edge="1" source="step8" target="dlq">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_step8_ddb" value="Update status" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;" parent="1" edge="1" source="step8" target="ddb">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_step8_s3" value="Write final/" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;" parent="1" edge="1" source="step8" target="s3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_sf_cw" value="Logs/Metrics" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;dashed=1;" parent="1" edge="1" source="sf" target="cw">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_lambdas_secrets" value="HMAC secret" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;dashed=1;" parent="1" edge="1" source="step1" target="secrets">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
