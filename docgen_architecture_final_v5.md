@@ -1,4 +1,4 @@
-# DocGen MVP - Step Functions Architecture (Final v5)
+# DocGen MVP - Step Functions Architecture (v5)
 
 ## Changes from v4
 - **job_id**: Generated from `$$.Execution.Name` (Step Functions built-in)
